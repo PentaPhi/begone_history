@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Begone</title>
+    <link href="popup.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="header">
+      <h2 style="margin:5px">Begone History</h2>
+      <div style="margin:5px">Add Origin URLs from trusted services to keep cookies and browser data from.</div>
+      <div style="margin:5px;margin-bottom:20px">History and Cache will be deleted for <bold style="font-weight: bold;text-decoration: underline;">ALL</bold> pages after Chrome closes.</div>
+      <input type="text" id="originInput" placeholder="Origin-URL">
+      <span class="addBtn">Add</span>
+      <div class=error>Invalid URL, example: https://www.google.com</div>
+    </div>
+    <ul id="list">
+    </ul>
+  </body>
+  <script src="popup.js"></script>
+</html>
