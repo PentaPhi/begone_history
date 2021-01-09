@@ -2,6 +2,8 @@
 
 Chrome Browser extension to automatically delete browser data after closing.
 
+It can be downloaded [here](https://chrome.google.com/webstore/detail/begone-history/bnlcejhadjmfmhnepahmncnnbdhfohnf).
+
 ## Deletion
 
 The extension deletes the following data:
