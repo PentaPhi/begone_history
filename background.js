@@ -1,21 +1,11 @@
 ///Detect when all chrome windows close
 
-chrome.windows.getAll( null, function(windows){
-    num_windows = windows.length;
-    console.log(num_windows)
-});
-
-chrome.windows.onCreated.addListener(function(e){
-    num_windows++;
-    console.log(num_windows)
-});
 
 chrome.windows.onRemoved.addListener(function(e){
-    num_windows--;
-    console.log(num_windows)
-    if( num_windows == 0 ){
+  chrome.windows.getAll(null,(windows)=>{
+    if(windows.length == 0)
       deleting();
-    }
+  });
 });
 
 //get Excludelist from LocalStorage
