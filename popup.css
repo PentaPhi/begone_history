@@ -121,3 +121,24 @@ input {
 .addBtn:hover {
   background-color: #bbb;
 }
+
+.wipeBtn {
+  padding: 10px;
+  width: 25%;
+  background: #800;
+  color: #eee;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  border-radius: 0;
+  height:20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+.wipeBtn:hover {
+  background-color: #bbb;
+}

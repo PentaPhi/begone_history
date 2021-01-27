@@ -1,8 +1,10 @@
+chrome.runtime.onStartup.addListener(function() {
+    deleting();
+});
+
 ///Detect when all chrome windows close
-
-
 chrome.windows.onRemoved.addListener(function(e){
-  chrome.windows.getAll(null,(windows)=>{
+  chrome.windows.getAll((windows)=>{
     if(windows.length == 0)
       deleting();
   });
