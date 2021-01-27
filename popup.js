@@ -71,10 +71,41 @@ if(localStorage.getItem("origins") != null){
   update(origins);
 }
 
+
+function getExcludeList(){
+  return JSON.parse(localStorage.getItem("origins"));
+}
+
+
+//wipe
+function deleting(){
+  chrome.browsingData.remove({},{
+    "appcache": true,
+    "cache": true,
+    "downloads": true,
+    "history": true,
+  },(e)=>{console.log(e)})
+
+  chrome.browsingData.remove({
+    "excludeOrigins": getExcludeList()
+  }, {
+    "cacheStorage": true,
+    "cookies": true,
+    "fileSystems": true,
+    "indexedDB": true,
+    "localStorage": true,
+    "serviceWorkers": true,
+    "webSQL": true
+  }, (e)=>{console.log(e)});
+}
+
+
+
 //set listeners
 
 //button listener
 document.getElementsByClassName("addBtn")[0].onclick = newInput
+document.getElementsByClassName("wipeBtn")[0].onclick = deleting
 
 //keyboard listener
 var input = document.getElementById("originInput");
