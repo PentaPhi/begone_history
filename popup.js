@@ -29,6 +29,15 @@ function update(origins){
   localStorage.setItem("origins", JSON.stringify(origins));
 }
 
+function setAuto(value){
+  localStorage.setItem("active", value);
+}
+
+function getAuto(){
+  return JSON.parse(localStorage.getItem("active"));
+}
+
+
 function newInput() {
   let url = document.getElementById("originInput").value
   if(validURL(url)){
@@ -41,6 +50,11 @@ function newInput() {
   }
 }
 
+function switchBox() {
+  let value = document.getElementsByClassName("toggle-checkbox")[0].checked;
+  setAuto(value);
+}
+
 //check if input is valid
 function validURL(str) {
   var pattern = new RegExp('^(https?:\\/\\/)'+ // protocol
@@ -49,28 +63,6 @@ function validURL(str) {
     '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*','i'); //
   return !!pattern.test(str);
 }
-
-//init list
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
-
-//load origins to list
-origins = []
-if(localStorage.getItem("origins") != null){
-  origins = JSON.parse(localStorage.getItem("origins"));
-  for(let e of origins){
-    newElement(e)
-  }
-}else{
-  update(origins);
-}
-
 
 function getExcludeList(){
   return JSON.parse(localStorage.getItem("origins"));
@@ -100,12 +92,37 @@ function deleting(){
 }
 
 
+//init list
+var close = document.getElementsByClassName("close");
+var i;
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
+
+//load origins to list
+origins = []
+if(localStorage.getItem("origins") != null){
+  origins = JSON.parse(localStorage.getItem("origins"));
+  for(let e of origins){
+    newElement(e)
+  }
+}else{
+  update(origins);
+}
+
+//init button
+document.getElementsByClassName("toggle-checkbox")[0].checked = getAuto();
+
 
 //set listeners
 
 //button listener
 document.getElementsByClassName("addBtn")[0].onclick = newInput
 document.getElementsByClassName("wipeBtn")[0].onclick = deleting
+document.getElementsByClassName("toggle-checkbox")[0].onclick = switchBox
 
 //keyboard listener
 var input = document.getElementById("originInput");

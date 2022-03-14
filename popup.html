@@ -7,9 +7,15 @@
   </head>
   <body>
     <div class="header">
-      <h2 style="margin:5px">Begone History</h2> <span class="wipeBtn">Wipe Now</span>
+      <label class="toggle">
+      	<input class="toggle-checkbox" type="checkbox">
+      	<div class="toggle-switch"></div>
+      	<span class="toggle-label">Wipe after Browser closes</span>
+      </label>
+      <span class="wipeBtn">Wipe Now</span>
+      <h2 style="margin:5px">Begone History</h2>
       <div style="margin:5px">Add Origin URLs from trusted services to keep cookies and browser data from.</div>
-      <div style="margin:5px;margin-bottom:20px">History and Cache will be deleted for <bold style="font-weight: bold;text-decoration: underline;">ALL</bold> pages after Chrome closes.</div>
+      <div style="margin:5px;margin-bottom:20px">History and Cache will be deleted for <bold style="font-weight: bold;text-decoration: underline;">ALL</bold> pages.</div>
       <input type="text" id="originInput" placeholder="Origin-URL">
       <span class="addBtn">Add</span>
       <div class=error>Invalid URL, example: https://www.google.com</div>
