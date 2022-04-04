@@ -1,0 +1,3 @@
+[submodule "localForage"]
+	path = localForage
+	url = https://github.com/localForage/localForage

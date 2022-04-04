@@ -1,3 +1,6 @@
+if('function' === typeof importScripts)
+  importScripts('./localForage/dist/localforage.min.js');
+
 chrome.runtime.onStartup.addListener(function() {
     deleting();
 });
@@ -10,14 +13,15 @@ chrome.windows.onRemoved.addListener(function(e){
   });
 });
 
-//get Excludelist from LocalStorage
-function getExcludeList(){
-  return JSON.parse(localStorage.getItem("origins"));
-}
 
 
-function deleting(){
-  if( JSON.parse(localStorage.getItem("active"))){
+async function deleting(){
+
+  if(!!await localforage.getItem("active")){
+
+    //get Excludelist from LocalForage
+    let excludeList = JSON.parse(await localforage.getItem("origins"));
+
     chrome.browsingData.remove({},{
       "appcache": true,
       "cache": true,

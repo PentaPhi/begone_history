@@ -26,15 +26,15 @@ function newElement(text) {
 }
 
 function update(origins){
-  localStorage.setItem("origins", JSON.stringify(origins));
+  localforage.setItem("origins", JSON.stringify(origins));
 }
 
 function setAuto(value){
-  localStorage.setItem("active", value);
+  localforage.setItem("active", value);
 }
 
-function getAuto(){
-  return JSON.parse(localStorage.getItem("active"));
+async function getAuto(){
+  return await localforage.getItem("active");
 }
 
 
@@ -64,13 +64,18 @@ function validURL(str) {
   return !!pattern.test(str);
 }
 
-function getExcludeList(){
-  return JSON.parse(localStorage.getItem("origins"));
+async function getExcludeList(){
+  if(!!localStorage.getItem("origins")){
+    localforage.setItem("origins",localStorage.getItem("origins"));
+    localStorage.removeItem("origins");
+    localforage.setItem("active",false)
+  }
+  return JSON.parse(await localforage.getItem("origins"));
 }
 
 
 //wipe
-function deleting(){
+async function deleting(){
   chrome.browsingData.remove({},{
     "appcache": true,
     "cache": true,
@@ -79,7 +84,7 @@ function deleting(){
   },(e)=>{console.log(e)})
 
   chrome.browsingData.remove({
-    "excludeOrigins": getExcludeList()
+    "excludeOrigins": await getExcludeList()
   }, {
     "cacheStorage": true,
     "cookies": true,
@@ -101,34 +106,38 @@ for (i = 0; i < close.length; i++) {
     div.style.display = "none";
   }
 }
+async function main(){
 
-//load origins to list
-origins = []
-if(localStorage.getItem("origins") != null){
-  origins = JSON.parse(localStorage.getItem("origins"));
-  for(let e of origins){
-    newElement(e)
-  }
-}else{
-  update(origins);
+    //load origins to list
+    origins = []
+    if(!!await getExcludeList()){
+        origins = await getExcludeList();
+        for(let e of origins){
+            newElement(e)
+        }
+    }else{
+        update(origins);
+    }
+
+    //init button
+    document.getElementsByClassName("toggle-checkbox")[0].checked = await getAuto();
+
+
+    //set listeners
+
+    //button listener
+    document.getElementsByClassName("addBtn")[0].onclick = newInput
+    document.getElementsByClassName("wipeBtn")[0].onclick = deleting
+    document.getElementsByClassName("toggle-checkbox")[0].onclick = switchBox
+
+    //keyboard listener
+    var input = document.getElementById("originInput");
+    input.addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            newInput();
+        }
+    });
 }
 
-//init button
-document.getElementsByClassName("toggle-checkbox")[0].checked = getAuto();
-
-
-//set listeners
-
-//button listener
-document.getElementsByClassName("addBtn")[0].onclick = newInput
-document.getElementsByClassName("wipeBtn")[0].onclick = deleting
-document.getElementsByClassName("toggle-checkbox")[0].onclick = switchBox
-
-//keyboard listener
-var input = document.getElementById("originInput");
-input.addEventListener("keyup", function(event) {
-  if (event.keyCode === 13) {
-    event.preventDefault();
-    newInput();
-  }
-});
+main();
